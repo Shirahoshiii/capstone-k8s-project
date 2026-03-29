@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exequiel Bangal - Capstone Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+            color: #111;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+        
+        header h1 {
+            font-size: 3rem;
+            color: #222;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            color: #555;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(15px);
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .card p {
+            margin-bottom: 1rem;
+            color: #555;
+        }
+        
+        .card a {
+            text-decoration: none;
+            color: #fff;
+            background: #007bff;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+        
+        .card a:hover {
+            background: #0056b3;
+        }
+        
+        video.video {
+            width: 100%;
+            border-radius: 15px;
+            margin-top: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .task-app {
+            margin-top: 3rem;
+            text-align: center;
+        }
+        
+        .task-app h2 {
+            margin-bottom: 1rem;
+        }
+        
+        #task {
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            width: 250px;
+            margin-right: 0.5rem;
+        }
+        
+        button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 10px;
+            background: #28a745;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        button:hover {
+            background: #218838;
+        }
+        
+        ul#list {
+            margin-top: 1rem;
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        ul#list li {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        
+        ul#list li:hover {
+            transform: scale(1.02);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem 1rem;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Exequiel Bangal</h1>
+            <p>Capstone Portfolio | Software Engineering | Smart Systems</p>
+        </header>
+
+        <h2>📦 Deliverables</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>📄 Cloud Portfolio</h3>
+                <p>View my full documentation</p>
+                <a href="portfolio.pdf" target="_blank">Open PDF</a>
+            </div>
+            <div class="card">
+                <h3>📊 Presentation Deck</h3>
+                <p>Final capstone slides</p>
+                <a href="presentation.pptx" target="_blank">Open Slides</a>
+            </div>
+            <div class="card">
+                <h3>🎥 Demo Video</h3>
+                <p>System demo and walkthrough</p>
+                <a href="#video">Watch Below</a>
+            </div>
+            <div class="card">
+                <h3>💻 Source Code</h3>
+                <p>GitHub repository</p>
+                <a href="https://github.com/YOUR_USERNAME/capstone-k8s-project" target="_blank">View Repo</a>
+            </div>
+        </div>
+
+        <h2 id="video">🎥 Demo Video</h2>
+        <video class="video" controls>
+    <source src="demo.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+        <div class="task-app">
+            <h2>📝 Task App Demo</h2>
+            <input id="task" placeholder="Task">
+            <button onclick="addTask()">Add</button>
+            <ul id="list"></ul>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Exequiel Bangal. All rights reserved.
+    </footer>
+
+    <script>
+        const API = "http://localhost:30007/tasks";
+
+        async function load() {
+            try {
+                let res = await fetch(API);
+                let data = await res.json();
+                document.getElementById("list").innerHTML =
+                    data.map(t => `<li>${t[1]}</li>`).join("");
+            } catch (err) {
+                console.error("Failed to load tasks:", err);
+            }
+        }
+
+        async function addTask() {
+            let val = document.getElementById("task").value;
+            if (val.trim() === "") return;
+            try {
+                await fetch(API, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        title: val
+                    })
+                });
+                document.getElementById("task").value = "";
+                load();
+            } catch (err) {
+                console.error("Failed to add task:", err);
+            }
+        }
+
+        load();
+    </script>
+</body>
+
+</html>
