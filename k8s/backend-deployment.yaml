@@ -16,5 +16,6 @@ spec:
       containers:
         - name: backend
           image: shirahoshiii/backend:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000

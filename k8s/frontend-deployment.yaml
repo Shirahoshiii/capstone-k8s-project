@@ -16,5 +16,6 @@ spec:
       containers:
         - name: frontend
           image: shirahoshiii/frontend:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
