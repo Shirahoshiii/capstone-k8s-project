@@ -1,12 +1,12 @@
-FROM nginx:alpine
-COPY app/frontend /usr/share/nginx/html
-
-FROM python:3.10
+FROM node:20
 
 WORKDIR /app
 
-COPY app/backend .
+COPY backend/package*.json ./
+RUN npm install
 
-RUN pip install fastapi uvicorn
+COPY backend/ .
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+EXPOSE 3000
+
+CMD ["node", "server.js"]
